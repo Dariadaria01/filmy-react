@@ -12,90 +12,94 @@ fetch("dane.js")
     })
     .then(dane => {
 
-        function render(filmy) {
-            wynikElement.innerHTML = "";
+const gatunki = new Set(dane.map((film) => film.gatunek));
 
-            filmy.forEach(film => {
-                const div = document.createElement("div");
+gatunki.forEach((gatunek) => {
+  const option = document.createElement('option');
 
-                div.classList.add("movie-card");
-                wynikElement.append(div);
+  option.value = gatunek;
+  option.textContent = gatunek;
 
-                
+  genreSelect.append(option);
+});
 
-                const h2 = document.createElement("h2")
+function render(filmy) {
+  wynikElement.innerHTML = '';
 
-                h2.classList.add("tytul-card");
-                div.append(h2)
+  filmy.forEach((film) => {
+    const div = document.createElement('div');
 
-                h2.textContent = film.tytul
+    div.classList.add('movie-card');
+    wynikElement.append(div);
 
-                const rok = document.createElement("p")
+    const h2 = document.createElement('h2');
 
-                rok.classList.add("rok-card");
-                div.append(rok)
+    h2.classList.add('tytul-card');
+    div.append(h2);
 
-                rok.textContent = film.rok
+    h2.textContent = film.tytul;
 
-                const rezyser = document.createElement("p")
+    const rok = document.createElement('p');
 
-                rezyser.classList.add("rezyser-card")
-                div.append(rezyser)
+    rok.classList.add('rok-card');
+    div.append(rok);
 
-                rezyser.textContent = film.rezyser
+    rok.textContent = film.rok;
 
-                const gatunek = document.createElement("p")
+    const rezyser = document.createElement('p');
 
-                gatunek.classList.add("gatunek-card");
-                div.append(gatunek)
+    rezyser.classList.add('rezyser-card');
+    div.append(rezyser);
 
-                gatunek.textContent = film.gatunek
+    rezyser.textContent = film.rezyser;
 
-            });
-        }
+    const gatunek = document.createElement('p');
 
-        render(dane);
+    gatunek.classList.add('gatunek-card');
+    div.append(gatunek);
 
-        function filtrujFilmy() {
-
-            const tekst = input.value.toLowerCase();
-            const gatunek = genreSelect.value;
-            const sortowanie = sortSelect.value;
-
-            const znalezioneFilmy = dane.filter(film => {
-                return film.tytul.toLowerCase().includes(tekst) &&
-                       (gatunek === "" || film.gatunek === gatunek);
-
-                       
-            });
-
-if (sortowanie === "sort-rosnaco")
-    { znalezioneFilmy.sort((a, b) => {
-        return a.rok - b.rok 
-    })
+    gatunek.textContent = film.gatunek;
+  });
 }
-    if(sortowanie === "sort-malejaco"){
-        znalezioneFilmy.sort((a, b) =>{
-            return b.rok - a.rok
-        }
-    )
-    }
 
-if(sortowanie === "sort-alfabetycznie")
-{ znalezioneFilmy.sort((a,b)=>{
-    return a.tytul.localeCompare(b.tytul)
-})}
-                        
-                       
-            render(znalezioneFilmy);
+function filtrujFilmy() {
+  const tekst = input.value.toLowerCase();
+  const gatunek = genreSelect.value;
+  const sortowanie = sortSelect.value;
 
-            if (znalezioneFilmy.length === 0) {
-                results.textContent = "Nie znaleziono filmów";
-            } else {
-                results.textContent = "";
-            }
-        }
+  const znalezioneFilmy = dane.filter((film) => {
+    return (
+      film.tytul.toLowerCase().includes(tekst) &&
+      (gatunek === '' || film.gatunek === gatunek)
+    );
+  });
 
+  if (sortowanie === 'sort-rosnaco') {
+    znalezioneFilmy.sort((a, b) => {
+      return a.rok - b.rok;
+    });
+  }
+  if (sortowanie === 'sort-malejaco') {
+    znalezioneFilmy.sort((a, b) => {
+      return b.rok - a.rok;
+    });
+  }
+
+  if (sortowanie === 'sort-alfabetycznie') {
+    znalezioneFilmy.sort((a, b) => {
+      return a.tytul.localeCompare(b.tytul);
+    });
+  }
+
+  render(znalezioneFilmy);
+
+  if (znalezioneFilmy.length === 0) {
+    results.textContent = 'Nie znaleziono filmów';
+  } else {
+    results.textContent = '';
+  }
+}
+filtrujFilmy();
         input.addEventListener("input", () => {
             filtrujFilmy();
         });
