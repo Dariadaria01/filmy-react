@@ -50,62 +50,56 @@ if (!response.ok){
 return (
   <div>
     <h1>Moje filmy</h1>
+    <label htmlFor='wyszukiwarka'>Wyszukaj film: </label>
+    <input
+      id='wyszukiwarka'
+      type='text'
+      value={szukanaFraza}
+      onChange={(e) => {
+        setSzukanaFraza(e.target.value);
+      }}
+      placeholder='Szukaj filmu'
+    />
+    <select
+      value={kierunekSortowania}
+      onChange={(e) => {
+        setKierunekSortowania(e.target.value);
+      }}
+    >
+      <option value='rosnaco'>Od najstarszego</option>
+      <option value='malejaco'>Od najnowszego</option>
+    </select>
+<label htmlFor="gatunek">
+  Wybierz gatunek:  
+</label>
+    <select
+      value={wybranyGatunek}
+      onChange={(e) => {
+        setWybranyGatunek(e.target.value);
+      }}
+    >
+      <option value='wszystkie'>Wszystkie gatunki</option>
 
-<input
-type = "text"
-value = {szukanaFraza}
-onChange = {(e) => {
-setSzukanaFraza(e.target.value)
-}}
-placeholder = "Szukaj filmu" 
-/>
-<select
-value = {kierunekSortowania}
-onChange={(e) => {
-  setKierunekSortowania(e.target.value)
-}}
->
-  <option value="rosnaco">Od najstarszego</option>
-  <option value="malejaco">Od najnowszego</option>
-</select>
-
-
-
-
-<select 
-value = {wybranyGatunek}
-onChange={(e) => {
-  setWybranyGatunek(e.target.value)
-}}
->
-  <option value = "wszystkie">Wszystkie gatunki</option>
-
-{unikalneGatunki.map((gatunek)=> (
-  <option key = {gatunek} value = {gatunek}>
-    {gatunek}
-  </option>
-))}
-
-</select>
+      {unikalneGatunki.map((gatunek) => (
+        <option key={gatunek} value={gatunek}>
+          {gatunek}
+        </option>
+      ))}
+    </select>
 
     <ul>
       {czyLaduje && <li>Ładowanie filmów...</li>}
-       {!czyLaduje && blad && (
-    <li>Nie udało się pobrać filmów.</li>
-  )}
+      {!czyLaduje && blad && <li>Nie udało się pobrać filmów.</li>}
 
-{!czyLaduje && !blad && posortowaneFilmy.length === 0 && (
-  <li>Nie znaleziono filmów</li>
-  )}
-    {!czyLaduje && !blad && posortowaneFilmy.map((film) => (
-<MovieCard film={film} key={film.id}/>
-      ))}
-  
-
-   
+      {!czyLaduje && !blad && posortowaneFilmy.length === 0 && (
+        <li>Nie znaleziono filmów</li>
+      )}
+      {!czyLaduje &&
+        !blad &&
+        posortowaneFilmy.map((film) => <MovieCard film={film} key={film.id} />)}
     </ul>
   </div>
-)
+);
 
 }
 
