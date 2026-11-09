@@ -48,45 +48,55 @@ if (!response.ok){
   }, [])
 
 return (
-  <div>
+  <div className='menu'>
     <h1>Moje filmy</h1>
-    <label htmlFor='wyszukiwarka'>Wyszukaj film: </label>
-    <input
-      id='wyszukiwarka'
-      type='text'
-      value={szukanaFraza}
-      onChange={(e) => {
-        setSzukanaFraza(e.target.value);
-      }}
-      placeholder='Szukaj filmu'
-    />
-    <select
-      value={kierunekSortowania}
-      onChange={(e) => {
-        setKierunekSortowania(e.target.value);
-      }}
-    >
-      <option value='rosnaco'>Od najstarszego</option>
-      <option value='malejaco'>Od najnowszego</option>
-    </select>
-<label htmlFor="gatunek">
-  Wybierz gatunek:  
-</label>
-    <select
-      value={wybranyGatunek}
-      onChange={(e) => {
-        setWybranyGatunek(e.target.value);
-      }}
-    >
-      <option value='wszystkie'>Wszystkie gatunki</option>
+    <div className='filters'>
+      <div className='search-filter'>
+        <label htmlFor='wyszukiwarka'>Szukaj </label>
+        <input
+          id='wyszukiwarka'
+          type='text'
+          value={szukanaFraza}
+          onChange={(e) => {
+            setSzukanaFraza(e.target.value);
+          }}
+          placeholder='Wpisz film'
+        />
+      </div>
 
-      {unikalneGatunki.map((gatunek) => (
-        <option key={gatunek} value={gatunek}>
-          {gatunek}
-        </option>
-      ))}
-    </select>
+      <div className='filter-row'>
+        <div className='filter-group'>
+          <label htmlFor='sortowanie'>Sortowanie</label>
+          <select
+            id='sortowanie'
+            value={kierunekSortowania}
+            onChange={(e) => {
+              setKierunekSortowania(e.target.value);
+            }}
+          >
+            <option value='rosnaco'>Od najstarszego</option>
+            <option value='malejaco'>Od najnowszego</option>
+          </select>
+        </div>
+        <div className='filter-group'>
+          <label htmlFor='gatunek'>Wybierz gatunek:</label>
+          <select
+            value={wybranyGatunek}
+            onChange={(e) => {
+              setWybranyGatunek(e.target.value);
+            }}
+          >
+            <option value='wszystkie'>Wszystkie gatunki</option>
 
+            {unikalneGatunki.map((gatunek) => (
+              <option key={gatunek} value={gatunek}>
+                {gatunek}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </div>
     <ul>
       {czyLaduje && <li>Ładowanie filmów...</li>}
       {!czyLaduje && blad && <li>Nie udało się pobrać filmów.</li>}
